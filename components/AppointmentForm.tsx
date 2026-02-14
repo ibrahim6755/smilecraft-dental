@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CalendarPlus, User, Mail, Phone, Calendar, Clock, MessageSquare, Loader2, CheckCircle } from "lucide-react";
 
-type FormErrors = Partial<Record<keyof FormState, string>>;
+type FormErrors = Partial<Record<keyof FormState | 'form', string>>;
 
 type FormState = {
   fullName: string;
