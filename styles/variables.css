@@ -1,0 +1,19 @@
+/* SmileCraft Dental – design tokens (imported by globals.css) */
+:root {
+  /* Primary: trusted dental blue */
+  --dental-primary: #0ea5e9;
+  --dental-primary-dark: #0284c7;
+  --dental-primary-light: #38bdf8;
+
+  /* Neutrals */
+  --dental-white: #ffffff;
+  --dental-gray-50: #f8fafc;
+  --dental-gray-100: #f1f5f9;
+  --dental-gray-200: #e2e8f0;
+  --dental-gray-300: #cbd5e1;
+  --dental-gray-500: #64748b;
+  --dental-gray-600: #475569;
+  --dental-gray-700: #334155;
+  --dental-gray-800: #1e293b;
+  --dental-gray-900: #0f172a;
+}

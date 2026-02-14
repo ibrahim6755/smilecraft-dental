@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@import "../styles/variables.css";
+
+:root {
+  --background: var(--dental-white);
+  --foreground: var(--dental-gray-900);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Dental clinic palette */
+  --color-dental-primary: var(--dental-primary);
+  --color-dental-primary-dark: var(--dental-primary-dark);
+  --color-dental-primary-light: var(--dental-primary-light);
+  --color-dental-white: var(--dental-white);
+  --color-dental-gray-50: var(--dental-gray-50);
+  --color-dental-gray-100: var(--dental-gray-100);
+  --color-dental-gray-200: var(--dental-gray-200);
+  --color-dental-gray-300: var(--dental-gray-300);
+  --color-dental-gray-500: var(--dental-gray-500);
+  --color-dental-gray-600: var(--dental-gray-600);
+  --color-dental-gray-700: var(--dental-gray-700);
+  --color-dental-gray-800: var(--dental-gray-800);
+  --color-dental-gray-900: var(--dental-gray-900);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Carousel Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 15s linear infinite !important;
+  will-change: transform;
+}
+
+.hover\:\[animation-play-state\:paused\]:hover {
+  animation-play-state: paused;
+}
