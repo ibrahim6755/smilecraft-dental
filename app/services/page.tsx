@@ -64,38 +64,35 @@ const services: {
 export default function ServicesPage() {
   return (
     <div className="bg-dental-white">
-      <section className="bg-dental-gray-50">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <div className="text-center">
+      <section className="border-t border-dental-gray-200 bg-dental-gray-50 py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <FadeIn className="text-center">
             <h1 className="text-3xl font-bold tracking-tight text-dental-gray-900 sm:text-4xl md:text-5xl">
               Our <span className="text-dental-primary">Services</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-dental-gray-600">
-              From routine care to advanced treatments, we offer a full range of
-              dental services to keep your smile healthy and confident.
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-dental-gray-600">
+              Comprehensive care for every smile—from routine cleanings to advanced treatments.
             </p>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="py-12 sm:py-16 lg:py-20">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, i) => {
               const Icon = service.icon;
               return (
-                <FadeIn key={service.title} delay={i * 0.08}>
-                <article
-                  className="rounded-xl border border-dental-gray-200 bg-white p-6 shadow-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-md"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-dental-primary/10 text-dental-primary">
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </div>
-                  <h2 className="mt-3 text-lg font-semibold text-dental-gray-900">
-                    {service.title}
-                  </h2>
-                  <p className="mt-2 text-dental-gray-600">{service.description}</p>
-                </article>
+                <FadeIn key={service.title} delay={i * 0.08} className="h-full">
+                  <article className="h-full flex flex-col rounded-xl border border-dental-gray-200 bg-white p-6 shadow-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-md">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-dental-primary/10 text-dental-primary">
+                      <Icon className="h-5 w-5" aria-hidden />
+                    </div>
+                    <h2 className="mt-3 text-lg font-semibold text-dental-gray-900">
+                      {service.title}
+                    </h2>
+                    <p className="mt-2 flex-1 text-dental-gray-600">{service.description}</p>
+                  </article>
                 </FadeIn>
               );
             })}

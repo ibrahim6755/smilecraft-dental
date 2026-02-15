@@ -18,20 +18,12 @@ const INITIAL_BOT_MESSAGE: Message = {
   timestamp: new Date(),
 };
 
-function getBotReply(): string {
-  const replies = [
-    "Thanks for your message! Our team will get back to you soon. For immediate help, call us at (555) 123-4567.",
-    "We’d be happy to help. You can book an appointment on our Contact page or give us a call during office hours.",
-    "We offer cleanings, whitening, implants, braces, root canals, and cosmetic dentistry. Visit our Services page for details.",
-    "We’re here Mon–Fri 8am–6pm and Sat 9am–2pm. Feel free to reach out anytime!",
-  ];
-  return replies[Math.floor(Math.random() * replies.length)];
-}
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_BOT_MESSAGE]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -49,9 +41,9 @@ export function Chatbot() {
     }
   }, [isOpen]);
 
-  function handleSend() {
+  async function handleSend() {
     const trimmed = inputValue.trim();
-    if (!trimmed) return;
+    if (!trimmed || isLoading) return;
 
     const userMessage: Message = {
       id: `user-${Date.now()}`,
@@ -61,17 +53,41 @@ export function Chatbot() {
     };
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
+    setIsLoading(true);
 
-    // Simulate bot reply
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: trimmed }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
+      }
+
       const botMessage: Message = {
         id: `bot-${Date.now()}`,
         type: "bot",
-        text: getBotReply(),
+        text: data.answer || "Unable to process your request",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botMessage]);
-    }, 600);
+    } catch (error) {
+      const errorMessage: Message = {
+        id: `bot-${Date.now()}`,
+        type: "bot",
+        text: "Sorry, I encountered an error. Please try again or contact us directly at (555) 123-4567.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -91,7 +107,7 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-            className="fixed bottom-24 right-4 z-[100] flex h-[min(85vh,28rem)] w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-2xl border border-dental-gray-200 bg-white shadow-xl sm:right-6 sm:bottom-28 sm:w-96"
+            className="fixed bottom-24 right-4 z-100 flex h-[min(85vh,28rem)] w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-2xl border border-dental-gray-200 bg-white shadow-xl sm:right-6 sm:bottom-28 sm:w-96"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-dental-gray-200 bg-dental-primary px-4 py-3">
@@ -142,13 +158,14 @@ export function Chatbot() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Type a message..."
-                  className="flex-1 rounded-xl border border-dental-gray-300 bg-dental-gray-50 px-4 py-2.5 text-sm text-dental-gray-900 placeholder:text-dental-gray-500 focus:border-dental-primary focus:outline-none focus:ring-2 focus:ring-dental-primary/20"
+                  disabled={isLoading}
+                  className="flex-1 rounded-xl border border-dental-gray-300 bg-dental-gray-50 px-4 py-2.5 text-sm text-dental-gray-900 placeholder:text-dental-gray-500 focus:border-dental-primary focus:outline-none focus:ring-2 focus:ring-dental-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Chat message"
                 />
                 <button
                   type="button"
                   onClick={handleSend}
-                  disabled={!inputValue.trim()}
+                  disabled={!inputValue.trim() || isLoading}
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-dental-primary text-white transition-colors hover:bg-dental-primary-dark focus:outline-none focus:ring-2 focus:ring-dental-primary focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
                   aria-label="Send message"
                 >

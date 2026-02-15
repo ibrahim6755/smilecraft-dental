@@ -113,20 +113,20 @@ export function ContactSection({ children }: ContactSectionProps) {
             {children}
           </div>
 
-          {/* Google Maps embed placeholder */}
+          {/* Google Maps embed - Islamabad, Pakistan */}
           <FadeIn delay={0.2} className="lg:col-span-3">
-            <div className="overflow-hidden rounded-2xl border border-dental-gray-200 bg-dental-gray-100 shadow-sm transition-transform duration-300 ease-out hover:scale-[1.01]">
-              <div className="flex aspect-4/3 w-full flex-col items-center justify-center gap-3 bg-dental-gray-200/80 lg:aspect-video">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-dental-gray-300/80 text-dental-gray-500">
-                  <MapPin className="h-7 w-7" aria-hidden />
-                </div>
-                <p className="text-center text-sm font-medium text-dental-gray-600">
-                  Map placeholder
-                </p>
-                <p className="max-w-xs text-center text-xs text-dental-gray-500">
-                  Add your Google Maps embed URL in ContactSection.tsx
-                </p>
-              </div>
+            <div className="overflow-hidden rounded-2xl border border-dental-gray-200 shadow-sm transition-transform duration-300 ease-out hover:scale-[1.01]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3320.8522623440783!2d73.18947!3d33.74049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df96cce1234567%3A0x1234567890abcdef!2sIslamabad%2C%20Pakistan!5e0!3m2!1sen!2s!4v1234567890123"
+                width="100%"
+                height="500"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full"
+                title="SmileCraft Dental Clinic Location - Islamabad, Pakistan"
+              />
             </div>
           </FadeIn>
         </div>

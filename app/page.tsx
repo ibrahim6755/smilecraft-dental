@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { useAppointment } from "@/lib/AppointmentContext";
 
 const services: {
@@ -68,6 +69,45 @@ const services: {
 export default function Home() {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const { openModal } = useAppointment();
+
+  const testimonials = [
+    {
+      name: "Sarah Mitchell",
+      role: "Teacher",
+      text: "Amazing experience! The team is professional, friendly, and made me feel completely comfortable. My teeth have never looked better.",
+      rating: 5,
+    },
+    {
+      name: "John Davis",
+      role: "Business Owner",
+      text: "Best dental care I've received. Clean facility, quick appointments, and excellent results. Highly recommend!",
+      rating: 5,
+    },
+    {
+      name: "Emily Rodriguez",
+      role: "Healthcare Professional",
+      text: "Dr. Sarah is incredibly skilled and attentive to detail. The entire team goes above and beyond to ensure patient satisfaction.",
+      rating: 5,
+    },
+    {
+      name: "Michael Chen",
+      role: "Software Engineer",
+      text: "I was nervous about my procedure, but the staff's care and expertise put me at ease immediately. Great results!",
+      rating: 5,
+    },
+    {
+      name: "Jessica Thompson",
+      role: "Nurse",
+      text: "Professional, painless, and they actually explain everything they're doing. This is my go-to dental clinic.",
+      rating: 5,
+    },
+    {
+      name: "Robert Wilson",
+      role: "Entrepreneur",
+      text: "Exceptional service from start to finish. The clinic is state-of-the-art and the team is genuinely caring.",
+      rating: 5,
+    },
+  ];
 
   return (
     <div className="bg-dental-white">
@@ -180,27 +220,20 @@ export default function Home() {
               advanced treatments.
             </p>
           </FadeIn>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, i) => {
               const Icon = service.icon;
               return (
-                <FadeIn key={service.title} delay={i * 0.08} duration={0.4}>
-                <article
-                  className="group relative flex h-full flex-col rounded-2xl border border-dental-gray-200 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:shadow-lg hover:border-dental-primary hover:shadow-dental-primary/20 sm:p-8"
-                >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-dental-primary/10 text-dental-primary transition-colors duration-300 group-hover:bg-dental-primary group-hover:text-white">
-                    <Icon className="h-7 w-7" aria-hidden />
-                  </div>
-                  <h3 className="mt-5 text-xl font-semibold text-dental-gray-900">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-dental-gray-600 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <div className="mt-6 flex items-center gap-2 text-dental-primary font-medium group-hover:gap-3 transition-all">
-                    Learn more <ChevronRight className="h-4 w-4" />
-                  </div>
-                </article>
+                <FadeIn key={service.title} delay={i * 0.08} className="h-full">
+                  <article className="h-full flex flex-col rounded-xl border border-dental-gray-200 bg-white p-6 shadow-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-md">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-dental-primary/10 text-dental-primary">
+                      <Icon className="h-5 w-5" aria-hidden />
+                    </div>
+                    <h3 className="mt-3 text-lg font-semibold text-dental-gray-900">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-dental-gray-600">{service.description}</p>
+                  </article>
                 </FadeIn>
               );
             })}
@@ -208,10 +241,9 @@ export default function Home() {
           <FadeIn className="mt-12 text-center">
             <Link
               href="/services"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-dental-primary px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-dental-primary-dark"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-dental-primary px-6 py-3 text-base font-medium text-white shadow-sm transition-colors hover:bg-dental-primary-dark"
             >
               View All Services
-              <ChevronRight className="h-5 w-5" aria-hidden />
             </Link>
           </FadeIn>
         </div>
@@ -352,136 +384,7 @@ export default function Home() {
             </p>
           </FadeIn>
 
-          <div className="mt-12 overflow-hidden">
-            <div className="group flex animate-scroll space-x-6 hover:[animation-play-state:paused]">
-              {[
-                {
-                  name: "Sarah Mitchell",
-                  role: "Teacher",
-                  text: "Amazing experience! The team is professional, friendly, and made me feel completely comfortable. My teeth have never looked better.",
-                  rating: 5,
-                },
-                {
-                  name: "John Davis",
-                  role: "Business Owner",
-                  text: "Best dental care I've received. Clean facility, quick appointments, and excellent results. Highly recommend!",
-                  rating: 5,
-                },
-                {
-                  name: "Emily Rodriguez",
-                  role: "Healthcare Professional",
-                  text: "Dr. Sarah is incredibly skilled and attentive to detail. The entire team goes above and beyond to ensure patient satisfaction.",
-                  rating: 5,
-                },
-                {
-                  name: "Michael Chen",
-                  role: "Software Engineer",
-                  text: "I was nervous about my procedure, but the staff's care and expertise put me at ease immediately. Great results!",
-                  rating: 5,
-                },
-                {
-                  name: "Jessica Thompson",
-                  role: "Nurse",
-                  text: "Professional, painless, and they actually explain everything they're doing. This is my go-to dental clinic.",
-                  rating: 5,
-                },
-                {
-                  name: "Robert Wilson",
-                  role: "Entrepreneur",
-                  text: "Exceptional service from start to finish. The clinic is state-of-the-art and the team is genuinely caring.",
-                  rating: 5,
-                },
-              ].map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="w-80 shrink-0 rounded-2xl border border-dental-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-lg hover:border-dental-primary sm:w-96"
-                >
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-dental-primary text-lg">
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-dental-gray-700 mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="border-t border-dental-gray-100 pt-4">
-                    <p className="font-semibold text-dental-gray-900">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-dental-primary">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
-              {/* Duplicate for seamless loop */}
-              {[
-                {
-                  name: "Sarah Mitchell",
-                  role: "Teacher",
-                  text: "Amazing experience! The team is professional, friendly, and made me feel completely comfortable. My teeth have never looked better.",
-                  rating: 5,
-                },
-                {
-                  name: "John Davis",
-                  role: "Business Owner",
-                  text: "Best dental care I've received. Clean facility, quick appointments, and excellent results. Highly recommend!",
-                  rating: 5,
-                },
-                {
-                  name: "Emily Rodriguez",
-                  role: "Healthcare Professional",
-                  text: "Dr. Sarah is incredibly skilled and attentive to detail. The entire team goes above and beyond to ensure patient satisfaction.",
-                  rating: 5,
-                },
-                {
-                  name: "Michael Chen",
-                  role: "Software Engineer",
-                  text: "I was nervous about my procedure, but the staff's care and expertise put me at ease immediately. Great results!",
-                  rating: 5,
-                },
-                {
-                  name: "Jessica Thompson",
-                  role: "Nurse",
-                  text: "Professional, painless, and they actually explain everything they're doing. This is my go-to dental clinic.",
-                  rating: 5,
-                },
-                {
-                  name: "Robert Wilson",
-                  role: "Entrepreneur",
-                  text: "Exceptional service from start to finish. The clinic is state-of-the-art and the team is genuinely caring.",
-                  rating: 5,
-                },
-                
-              ].map((testimonial, index) => (
-                <div
-                  key={`duplicate-${index}`}
-                  className="w-80 shrink-0 rounded-2xl border border-dental-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-lg hover:border-dental-primary sm:w-96"
-                >
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-dental-primary text-lg">
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-dental-gray-700 mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="border-t border-dental-gray-100 pt-4">
-                    <p className="font-semibold text-dental-gray-900">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-dental-primary">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createAppointment, isTimeSlotBooked } from "@/lib/db";
 import { validateFormData, sanitizeInput } from "@/lib/validation";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
+import { sendNewAppointmentNotificationEmail } from "@/lib/email";
 
 type AppointmentBody = {
   fullName: string;
@@ -163,10 +164,19 @@ export async function POST(request: Request) {
       date: appointment.preferredDate,
     });
 
+    // Send admin notification of new appointment (non-blocking)
+    sendNewAppointmentNotificationEmail(appointment).then((sent) => {
+      if (sent) {
+        console.log(`✅ Admin notification sent for new appointment ${appointment.id}`);
+      } else {
+        console.warn(`⚠️ Failed to send admin notification for appointment ${appointment.id}`);
+      }
+    });
+
     return NextResponse.json(
       {
         success: true,
-        message: "Appointment request sent successfully.",
+        message: "Appointment request sent successfully. Awaiting admin confirmation.",
         appointmentId: appointment.id,
       },
       { status: 200 }

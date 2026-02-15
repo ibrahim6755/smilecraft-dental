@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Smile, Home, Briefcase, MessageSquare, Info } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
 
 export function Footer() {
@@ -7,52 +7,67 @@ export function Footer() {
 
   return (
     <footer className="border-t border-dental-gray-200 bg-dental-gray-100">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-3">
           {/* Brand */}
-          <div className="sm:col-span-2 lg:col-span-1">
+          <div>
             <Link
               href="/"
-              className="text-lg font-semibold text-dental-primary"
+              className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
             >
-              {siteConfig.name}
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-dental-primary to-dental-primary-dark text-white shadow-md shadow-dental-primary/30">
+                <Smile className="h-5 w-5" strokeWidth={2.5} />
+              </div>
+              <span className="text-sm font-semibold text-dental-gray-900">
+                {siteConfig.name}
+              </span>
             </Link>
-            <p className="mt-2 text-sm text-dental-gray-600">
+            <p className="mt-2 text-xs text-dental-gray-600">
               {siteConfig.description}
             </p>
           </div>
 
           {/* Quick links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-dental-gray-800">
-              Quick Links
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-dental-gray-800">
+              Links
             </h3>
-            <ul className="mt-4 space-y-2">
-              {siteConfig.navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-dental-gray-600 transition-colors hover:text-dental-primary"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            <ul className="mt-2 space-y-1">
+              {siteConfig.navLinks.map((link) => {
+                const getIcon = () => {
+                  if (link.href === "/") return <Home className="h-3 w-3" />;
+                  if (link.href === "/about") return <Info className="h-3 w-3" />;
+                  if (link.href === "/services") return <Briefcase className="h-3 w-3" />;
+                  if (link.href === "/contact") return <MessageSquare className="h-3 w-3" />;
+                  return null;
+                };
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="flex items-center gap-2 text-xs text-dental-gray-600 transition-colors hover:text-dental-primary"
+                    >
+                      <span className="text-dental-primary">{getIcon()}</span>
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-dental-gray-800">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-dental-gray-800">
               Contact
             </h3>
-            <ul className="mt-4 space-y-3 text-sm text-dental-gray-600">
-              <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-dental-primary" aria-hidden />
+            <ul className="mt-2 space-y-1 text-xs text-dental-gray-600">
+              <li className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-dental-primary" aria-hidden />
                 <span>{siteConfig.footer.address}</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-dental-primary" aria-hidden />
+              <li className="flex items-center gap-2">
+                <Phone className="h-3 w-3 shrink-0 text-dental-primary" aria-hidden />
                 <a
                   href={`tel:${siteConfig.footer.phone.replace(/\D/g, "")}`}
                   className="transition-colors hover:text-dental-primary"
@@ -60,8 +75,8 @@ export function Footer() {
                   {siteConfig.footer.phone}
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-dental-primary" aria-hidden />
+              <li className="flex items-center gap-2">
+                <Mail className="h-3 w-3 shrink-0 text-dental-primary" aria-hidden />
                 <a
                   href={`mailto:${siteConfig.footer.email}`}
                   className="transition-colors hover:text-dental-primary"
@@ -69,15 +84,15 @@ export function Footer() {
                   {siteConfig.footer.email}
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-dental-primary" aria-hidden />
+              <li className="flex items-start gap-2">
+                <Clock className="mt-0.5 h-3 w-3 shrink-0 text-dental-primary" aria-hidden />
                 <span>{siteConfig.footer.hours}</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-dental-gray-200 pt-8 text-center text-sm text-dental-gray-500">
+        <div className="mt-6 border-t border-dental-gray-200 pt-4 text-center text-xs text-dental-gray-500">
           © {currentYear} {siteConfig.name}. All rights reserved.
         </div>
       </div>
