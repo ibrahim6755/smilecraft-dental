@@ -122,7 +122,7 @@ export async function POST(request: Request) {
 
     // Check if time slot is already booked
     try {
-      if (isTimeSlotBooked(sanitizedData.preferredDate, sanitizedData.preferredTime)) {
+      if (await isTimeSlotBooked(sanitizedData.preferredDate, sanitizedData.preferredTime)) {
         return NextResponse.json(
           {
             success: false,
@@ -139,7 +139,7 @@ export async function POST(request: Request) {
     // Save appointment to database
     let appointment;
     try {
-      appointment = createAppointment(
+      appointment = await createAppointment(
         sanitizedData.fullName,
         sanitizedData.email,
         sanitizedData.phone,

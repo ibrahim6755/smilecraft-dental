@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const appointments = getAppointments();
+    const appointments = await getAppointments();
     return NextResponse.json({ appointments }, { status: 200 });
   } catch (err) {
     console.error("Error fetching appointments:", err);
@@ -37,7 +37,9 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, status, ...updates } = body;
+    const { id, status, fullName, email, phone, preferredDate, preferredTime, message } = body;
+
+    console.log("📝 Update request received:", { id, status, fullName, email, phone, preferredDate, preferredTime, message });
 
     if (!id) {
       return NextResponse.json(
@@ -47,22 +49,38 @@ export async function PUT(request: NextRequest) {
     }
 
     // Get the original appointment to check status change
-    const originalAppointment = getAppointmentById(id);
+    const originalAppointment = await getAppointmentById(id);
     if (!originalAppointment) {
+      console.error(`❌ Appointment with ID '${id}' not found in database`);
       return NextResponse.json(
         { error: "Appointment not found" },
         { status: 404 }
       );
     }
 
-    const appointment = updateAppointment(id, { ...updates, status: status || undefined });
+    // Build update object with only the fields that should be updated
+    const updateData: Partial<Appointment> = {};
+    if (fullName !== undefined) updateData.fullName = fullName;
+    if (email !== undefined) updateData.email = email;
+    if (phone !== undefined) updateData.phone = phone;
+    if (preferredDate !== undefined) updateData.preferredDate = preferredDate;
+    if (preferredTime !== undefined) updateData.preferredTime = preferredTime;
+    if (message !== undefined) updateData.message = message;
+    if (status !== undefined) updateData.status = status;
+
+    console.log("🔄 Updating appointment with data:", updateData);
+
+    const appointment = await updateAppointment(id, updateData);
 
     if (!appointment) {
+      console.error(`❌ Failed to update appointment with ID '${id}'`);
       return NextResponse.json(
         { error: "Appointment not found" },
         { status: 404 }
       );
     }
+
+    console.log(`✅ Appointment ${id} updated successfully:`, appointment);
 
     // Send email if status changed to confirmed
     if (status === "confirmed" && originalAppointment.status !== "confirmed") {
@@ -109,7 +127,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const deleted = deleteAppointment(id);
+    const deleted = await deleteAppointment(id);
 
     if (!deleted) {
       return NextResponse.json(
