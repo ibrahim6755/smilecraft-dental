@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get the original appointment
-    const originalAppointment = getAppointmentById(appointmentId);
+    const originalAppointment = await getAppointmentById(appointmentId);
     if (!originalAppointment) {
       console.warn(`⚠️ Appointment not found: ${appointmentId}`);
       return NextResponse.json(
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update appointment status in database
-    const updatedAppointment = updateAppointment(appointmentId, {
+    const updatedAppointment = await updateAppointment(appointmentId, {
       status: newStatus as "confirmed" | "cancelled",
     });
 

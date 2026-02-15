@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAppointments, getAppointmentById, updateAppointment, deleteAppointment, type Appointment } from "@/lib/db";
+import { getAppointments, getAppointmentById, updateAppointment, deleteAppointment } from "@/lib/db";
+import type { Appointment } from "@/lib/db";
 import { verifyAdminSession } from "@/lib/auth";
 import { sendConfirmationEmail, sendCancellationEmail, sendAdminNotificationEmail } from "@/lib/email";
 
